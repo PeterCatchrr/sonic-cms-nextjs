@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 
 const API_BASE = 'https://campaign-backend-railway-production.up.railway.app';
@@ -78,62 +79,43 @@ export default function CampaignCMS() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="flex gap-4 mb-6">
-        <button onClick={() => setActiveView("campaigns")} className={\`px-4 py-2 rounded \${activeView === "campaigns" ? 'bg-black text-white' : 'bg-gray-200'}\`}>📋 Campaign Management</button>
-        <button onClick={() => setActiveView("insights")} className={\`px-4 py-2 rounded \${activeView === "insights" ? 'bg-black text-white' : 'bg-gray-200'}\`}>📊 Data Insights</button>
+    <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
+      <div style={{ marginBottom: '1rem' }}>
+        <button onClick={() => setActiveView("campaigns")} style={{ marginRight: '1rem' }}>📋 Campaign Management</button>
+        <button onClick={() => setActiveView("insights")}>📊 Data Insights</button>
       </div>
 
       {activeView === "campaigns" && (
         <>
-          <h1 className="text-2xl font-bold mb-6">🎯 Campaign CMS + Encoder</h1>
-
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 mb-6">
-            <input className="border p-2 rounded" name="title" placeholder="Campaign Title" value={form.title} onChange={handleChange} />
-            <input className="border p-2 rounded" name="brand" placeholder="Brand Name" value={form.brand} onChange={handleChange} />
-            <input className="border p-2 rounded" name="barcodeId" placeholder="Barcode ID (leave blank to auto-generate)" value={form.barcodeId} onChange={handleChange} />
-            <input className="border p-2 rounded" name="timestamp" placeholder="Trigger Time (sec)" value={form.timestamp} onChange={handleChange} />
-            <input className="border p-2 rounded" name="frequency" placeholder="Frequency (Hz)" value={form.frequency} onChange={handleChange} />
-            <input className="border p-2 rounded" name="url" placeholder="Redirect URL" value={form.url} onChange={handleChange} />
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>🎯 Campaign CMS + Encoder</h1>
+          <div style={{ marginTop: '1rem' }}>
+            <input name="title" placeholder="Campaign Title" value={form.title} onChange={handleChange} />
+            <input name="brand" placeholder="Brand Name" value={form.brand} onChange={handleChange} />
+            <input name="barcodeId" placeholder="Barcode ID (optional)" value={form.barcodeId} onChange={handleChange} />
+            <input name="timestamp" placeholder="Trigger Time (sec)" value={form.timestamp} onChange={handleChange} />
+            <input name="frequency" placeholder="Frequency (Hz)" value={form.frequency} onChange={handleChange} />
+            <input name="url" placeholder="Redirect URL" value={form.url} onChange={handleChange} />
           </div>
 
-          <div className="mb-4">
-            <label className="block font-semibold mb-2">🎬 Upload Video for Encoding</label>
+          <div style={{ marginTop: '1rem' }}>
+            <label>🎬 Upload Video:</label>
             <input type="file" accept="video/*" onChange={handleVideoUpload} />
-            {videoFile && (
-              <video ref={videoRef} src={videoFile} controls width="100%" className="mt-4 rounded shadow" />
-            )}
+            {videoFile && <video ref={videoRef} src={videoFile} controls width="100%" />}
           </div>
 
-          <div className="flex gap-4">
-            <button onClick={handleAdd} className="bg-black text-white px-4 py-2 rounded">➕ Add Campaign</button>
-            <button onClick={simulateEncoding} className="bg-blue-600 text-white px-4 py-2 rounded">🎧 Encode + Download</button>
+          <div style={{ marginTop: '1rem' }}>
+            <button onClick={handleAdd}>➕ Add Campaign</button>
+            <button onClick={simulateEncoding} style={{ marginLeft: '1rem' }}>🎧 Encode + Download</button>
           </div>
 
-          {encodingLog && <p className="mt-4 text-sm bg-gray-100 p-2 border rounded">{encodingLog}</p>}
-
-          <div className="mt-10">
-            <h2 className="text-xl font-semibold mb-4">📋 Campaign List</h2>
-            <div className="grid gap-4">
-              {campaigns.map(c => (
-                <div key={c._id || c.id} className="border rounded shadow p-4">
-                  <p><strong>Campaign:</strong> {c.title}</p>
-                  <p><strong>Brand:</strong> {c.brand}</p>
-                  <p><strong>Barcode ID:</strong> {c.barcodeId}</p>
-                  <p><strong>Timestamp:</strong> {c.timestamp}s</p>
-                  <p><strong>Frequency:</strong> {c.frequency} Hz</p>
-                  <p><strong>URL:</strong> <a href={c.url} target="_blank" className="underline text-blue-600">{c.url}</a></p>
-                </div>
-              ))}
-            </div>
-          </div>
+          {encodingLog && <p>{encodingLog}</p>}
         </>
       )}
 
       {activeView === "insights" && (
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold mb-4">📊 Campaign Data Insights</h2>
-          <p className="text-gray-600">Coming soon: analytics dashboard for triggered tones, conversion tracking, and performance by campaign.</p>
+        <div>
+          <h2>📊 Campaign Data Insights</h2>
+          <p>Coming soon: analytics dashboard for triggered tones.</p>
         </div>
       )}
     </div>
